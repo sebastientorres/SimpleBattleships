@@ -1,7 +1,7 @@
 import java.util.Random;
 import java.io.Console;
-import java.util.Arrays;
-import java.io.IOException;
+//import java.util.Arrays;
+//import java.io.IOException;
 
 public class SimpleBattleships {
 	
@@ -16,11 +16,10 @@ public class SimpleBattleships {
 		// Set up a console object
 		Console c = System.console();
 				
-		boolean gameOver = false;
-		boolean coordsFireValid = false;
+		
 		
 		// set the world \ playing board
-		int[][] playingBoard = new int[25][25];
+		//int[][] playingBoard = new int[25][25];
 		
 		// setting the ship up
 		int shipLength = randChooseLength();
@@ -30,23 +29,24 @@ public class SimpleBattleships {
 		System.out.println("Ship coordinates are " + shipCoords);
 		System.out.println("Ship orientaiton is " + shipOrientation);
 		
+		boolean gameOver = false;
 		while(!gameOver){
-			 
-			//Read in coords and validate them
 			
-			String coordsFire = c.readLine("Enter coordinates as 'x,y': ");
-						
-			while(!coordsFireValid){
-				
-				coordsFireValid = validateCoordsFire(coordsFire);
 
+			//Read in coords and validate them
+			String coordsFire = c.readLine("Enter coordinates as 'x,y': ");
+			
+			boolean coordsFireValid = false;
+			while(!coordsFireValid){
+				coordsFire = c.readLine("Enter coordinates as 'x,y':");
+				coordsFireValid = validateCoordsFire(coordsFire);
 			}
 			
-			// You've fixed this already, what did you do?....
+
 			int x = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
 			int y = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
 			
-			System.out.println("Firing coordinates are x=" + x + " and y=" + y);
+			System.out.println("Firing coordinates are x = " + x + " and y = " + y);
 			
 			//check coords / hit
 			//checkShipHit(shipCoords, coordsFire, shipOrientation, playingBoard);
@@ -75,7 +75,7 @@ public class SimpleBattleships {
 	
 	// Validate the entered coordinates
 	public static boolean validateCoordsFire(String coordsFire){
-		boolean coordsFireValid = false;
+		boolean coordsFireValid;
 		int x, y;
 		
 		String strx = splitCoordsString(coordsFire, 'x');
@@ -88,7 +88,7 @@ public class SimpleBattleships {
 			
 			if (x >= 26 || y >= 26){
 				coordsFireValid = false;
-				System.out.println("The dimensions of the board are 25 x 25, 'x,y' entered must be less than this.");
+				System.out.println("The dimensions of the board are 25 x 25, 'x,y' entered must be less than this.  You entered '" + strx + "' for x and '" + stry + "' for y.");
 			} else {
 				coordsFireValid = true;
 			}
@@ -179,7 +179,7 @@ public class SimpleBattleships {
 	
 	// Split the String based on a comma, convert that String position to an int
 	private static String splitCoordsString(String coords, char xORy){
-		System.out.println("in splitCoordsString " + xORy);
+		
 		String[] line = coords.split(",");
 		
 		int pos;
@@ -199,13 +199,11 @@ public class SimpleBattleships {
 
 		String coordsValue = line[pos];
 		
-		System.out.println("End of splitCoordsString " + xORy);
-		
 		return coordsValue;		
 	}
 
 	public static boolean numericCheckCoordsFire(String strCoords){
-		System.out.println("numericCheckCoordsFire");	
+
 		return strCoords.matches("-?\\d+(\\.\\d+)?");
 		
 	}

@@ -13,13 +13,8 @@ public class SimpleBattleships {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		// Set up a console object
-		Console c = System.console();
-				
-		
-		
 		// set the world \ playing board
-		//int[][] playingBoard = new int[25][25];
+		int[][] playingBoard = new int[15][15];
 		
 		// setting the ship up
 		int shipLength = randChooseLength();
@@ -27,26 +22,20 @@ public class SimpleBattleships {
 		String shipCoords = shipChooseCoords(shipLength);
 		
 		System.out.println("Ship coordinates are " + shipCoords);
-		System.out.println("Ship orientaiton is " + shipOrientation);
+		System.out.println("Ship length is " + shipLength);
+		if(shipOrientation == true){
+			System.out.println("Ship orientaiton is vertical");
+		} else{
+			System.out.println("Ship orientaiton is horizontal");
+		}
+		
 		
 		boolean gameOver = false;
 		while(!gameOver){
 			
-
-			//Read in coords and validate them
-			String coordsFire = c.readLine("Enter coordinates as 'x,y': ");
+			String fireCoords = readInCoords();
 			
-			boolean coordsFireValid = false;
-			while(!coordsFireValid){
-				coordsFire = c.readLine("Enter coordinates as 'x,y':");
-				coordsFireValid = validateCoordsFire(coordsFire);
-			}
-			
-
-			int x = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
-			int y = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
-			
-			System.out.println("Firing coordinates are x = " + x + " and y = " + y);
+			boolean shipHit = checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength);
 			
 			//check coords / hit
 			//checkShipHit(shipCoords, coordsFire, shipOrientation, playingBoard);
@@ -171,11 +160,41 @@ public class SimpleBattleships {
 	}
 
 	// Check if the fired coords score a hit
-	public static void checkShipHit(String shipCoords, String coordsFire, boolean shipOrientation, int[][] playingBoard){
+	// when shipOrientation is true x is extended/ranged by the shipLength, otherwise, y is 
+	public static boolean checkShipHit(String shipCoords, String coordsFire, boolean shipOrientation, int shipLength){
 		
+		boolean shipHit;
 		
+		int xfire = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
+		int yfire = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
+		
+		int xship = Integer.parseInt(splitCoordsString(shipCoords, 'x'));
+		int yship = Integer.parseInt(splitCoordsString(shipCoords, 'y'));
+		
+		if (shipOrientation == true){
+			for(int i = xship; i < xship + shipLength; i++) {
+				if (xfire == i && yfire == yship){
+					shipHit = true;
+				} else {
+					shipHit = false;
+				}
+			}
+		} else {
+			for(int i = yship; i < yship + shipLength; i++) {
+				if (xfire == xship && yfire == i){
+					shipHit = true;
+				} else {
+					shipHit = false;
+				}
+			}
+		}
+
+		// Why is this not getting the assignment that it should - according to the logic above
+		return shipHit;
 		
 	}
+	
+
 	
 	// Split the String based on a comma, convert that String position to an int
 	private static String splitCoordsString(String coords, char xORy){
@@ -207,4 +226,24 @@ public class SimpleBattleships {
 		return strCoords.matches("-?\\d+(\\.\\d+)?");
 		
 	}
+
+	public static String readInCoords(){
+		
+		// Set up a console object
+		Console c = System.console();
+				
+		//boolean coordsFireValid = false;
+			
+		String coordsFire = c.readLine("Enter coordinates as 'x,y':");
+		
+		validateCoordsFire(coordsFire);
+
+		int x = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
+		int y = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
+		
+		System.out.println("Firing coordinates are x = " + x + " and y = " + y);
+				
+		return coordsFire;
+	}
+
 }

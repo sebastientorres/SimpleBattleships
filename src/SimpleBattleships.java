@@ -35,7 +35,8 @@ public class SimpleBattleships {
 			
 			String fireCoords = readInCoords();
 			
-			boolean shipHit = checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength);
+			// boolean shipHit = 
+			checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength);
 			
 			//check coords / hit
 			//checkShipHit(shipCoords, coordsFire, shipOrientation, playingBoard);
@@ -161,9 +162,12 @@ public class SimpleBattleships {
 
 	// Check if the fired coords score a hit
 	// when shipOrientation is true x is extended/ranged by the shipLength, otherwise, y is 
+	// Need to be able to record coords that have already been hit
 	public static boolean checkShipHit(String shipCoords, String coordsFire, boolean shipOrientation, int shipLength){
 		
-		boolean shipHit;
+		boolean shipHit = false;
+		
+		// shipHitRecord(coordsFire);
 		
 		int xfire = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
 		int yfire = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
@@ -171,19 +175,29 @@ public class SimpleBattleships {
 		int xship = Integer.parseInt(splitCoordsString(shipCoords, 'x'));
 		int yship = Integer.parseInt(splitCoordsString(shipCoords, 'y'));
 		
+		// Orientation is vertical
 		if (shipOrientation == true){
+			System.out.println("Checking vertical coords");
 			for(int i = xship; i < xship + shipLength; i++) {
 				if (xfire == i && yfire == yship){
+					System.out.println("HIT!");
 					shipHit = true;
+					break;
 				} else {
 					shipHit = false;
+					System.out.println("Miss...");
 				}
 			}
+			// Orientation is horizontal
 		} else {
+			System.out.println("Checking horizontal coords");
 			for(int i = yship; i < yship + shipLength; i++) {
 				if (xfire == xship && yfire == i){
+					System.out.println("HIT!");
 					shipHit = true;
+					break;
 				} else {
+					System.out.println("Miss...");
 					shipHit = false;
 				}
 			}
@@ -245,5 +259,4 @@ public class SimpleBattleships {
 				
 		return coordsFire;
 	}
-
-}
+ 	}

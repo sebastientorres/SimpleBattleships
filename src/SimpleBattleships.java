@@ -1,5 +1,7 @@
-import java.util.Random;
 import java.io.Console;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 //import java.util.Arrays;
 //import java.io.IOException;
 
@@ -212,6 +214,7 @@ public class SimpleBattleships {
 		
 		List<String> listHit = new ArrayList<String>();
 		List<String> listMiss = new ArrayList<String>();
+		
 		
 		
 	}

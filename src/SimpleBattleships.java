@@ -35,6 +35,8 @@ public class SimpleBattleships {
 			
 			String fireCoords = readInCoords();
 			
+			shipHitRecord(fireCoords);
+			
 			// boolean shipHit = 
 			checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength);
 			
@@ -167,8 +169,6 @@ public class SimpleBattleships {
 		
 		boolean shipHit = false;
 		
-		// shipHitRecord(coordsFire);
-		
 		int xfire = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
 		int yfire = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
 		
@@ -203,12 +203,18 @@ public class SimpleBattleships {
 			}
 		}
 
-		// Why is this not getting the assignment that it should - according to the logic above
 		return shipHit;
 		
 	}
 	
-
+	// Record and list the coords already fired at
+	public static void shipHitRecord(String coordsFire){
+		
+		List<String> listHit = new ArrayList<String>();
+		List<String> listMiss = new ArrayList<String>();
+		
+		
+	}
 	
 	// Split the String based on a comma, convert that String position to an int
 	private static String splitCoordsString(String coords, char xORy){
@@ -259,4 +265,4 @@ public class SimpleBattleships {
 				
 		return coordsFire;
 	}
- 	}
+ }

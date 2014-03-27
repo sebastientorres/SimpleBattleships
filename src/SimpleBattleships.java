@@ -180,8 +180,8 @@ public class SimpleBattleships {
 		// Orientation is vertical
 		if (shipOrientation == true){
 			System.out.println("Checking vertical coords");
-			for(int i = xship; i < xship + shipLength; i++) {
-				if (xfire == i && yfire == yship){
+			for(int i = yship; i < yship + shipLength; i++) {
+				if (xfire == xship && yfire == i){
 					System.out.println("HIT!");
 					shipHit = true;
 					break;
@@ -193,8 +193,8 @@ public class SimpleBattleships {
 			// Orientation is horizontal
 		} else {
 			System.out.println("Checking horizontal coords");
-			for(int i = yship; i < yship + shipLength; i++) {
-				if (xfire == xship && yfire == i){
+			for(int i = xship; i < xship + shipLength; i++) {
+				if (xfire == i && yfire == yship){
 					System.out.println("HIT!");
 					shipHit = true;
 					break;

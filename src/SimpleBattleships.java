@@ -18,6 +18,9 @@ public class SimpleBattleships {
 		// set the world \ playing board
 		int[][] playingBoard = new int[15][15];
 		
+		List<String> listHit = new ArrayList<String>();
+		List<String> listMiss = new ArrayList<String>();
+		
 		// setting the ship up
 		int shipLength = randChooseLength();
 		boolean shipOrientation = randChooseOrientation();
@@ -37,11 +40,10 @@ public class SimpleBattleships {
 			
 			String fireCoords = readInCoords();
 			
-			shipHitRecord(fireCoords);
-			
+			while(!shipHitRecord(fireCoords, listHit, listMiss)){
 			// boolean shipHit = 
-			checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength);
-			
+				checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength);
+			}
 			//check coords / hit
 			//checkShipHit(shipCoords, coordsFire, shipOrientation, playingBoard);
 
@@ -210,12 +212,30 @@ public class SimpleBattleships {
 	}
 	
 	// Record and list the coords already fired at
-	public static void shipHitRecord(String coordsFire){
+	public static boolean shipHitRecord(String coordsFire, List<String>listHit, List<String> listMiss){
 		
-		List<String> listHit = new ArrayList<String>();
-		List<String> listMiss = new ArrayList<String>();
+		boolean alreadyHit = false;
 		
+		int xfire = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
+		int yfire = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
 		
+		// go through each item in the list - split entry into x and y and compare whether those coords have been fired against
+		// shouldn't actually need to split them; do a String.matches()
+		
+		int listHitSize = listHit.size();
+		
+		// this isn't quite correct.  Where do the listHit and listMiss string lists have the coordsFire String added to the end of them? 
+		for(int i = 0; i < listHitSize; i++){
+			if(coordsFire.matches(listHit[i])){
+				// put these matched coordsFire into listHit 
+				alreadyHit = false;
+				
+			} else {
+				alreadyHit = true;
+			}
+		}
+		
+		return alreadyHit;
 		
 	}
 	

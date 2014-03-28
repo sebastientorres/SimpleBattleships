@@ -216,17 +216,10 @@ public class SimpleBattleships {
 		
 		boolean alreadyHit = false;
 		
-		int xfire = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
-		int yfire = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
+		// go through each item in the list and compare against coordsFire
 		
-		// go through each item in the list - split entry into x and y and compare whether those coords have been fired against
-		// shouldn't actually need to split them; do a String.matches()
-		
-		int listHitSize = listHit.size();
-		
-		// this isn't quite correct.  Where do the listHit and listMiss string lists have the coordsFire String added to the end of them? 
-		for(int i = 0; i < listHitSize; i++){
-			if(coordsFire.matches(listHit[i])){
+		for(String s : listHit){
+			if(s.contentEquals(coordsFire)){
 				// put these matched coordsFire into listHit 
 				alreadyHit = false;
 				

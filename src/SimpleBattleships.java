@@ -40,6 +40,7 @@ public class SimpleBattleships {
 			
 			String fireCoords = readInCoords();
 			
+			// erm, not sure about this bit
 			while(!shipHitRecord(fireCoords, listHit, listMiss)){
 			// boolean shipHit = 
 				checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength, listHit, listMiss);

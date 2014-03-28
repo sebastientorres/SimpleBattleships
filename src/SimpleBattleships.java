@@ -42,7 +42,7 @@ public class SimpleBattleships {
 			
 			while(!shipHitRecord(fireCoords, listHit, listMiss)){
 			// boolean shipHit = 
-				checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength);
+				checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength, listHit, listMiss);
 			}
 			//check coords / hit
 			//checkShipHit(shipCoords, coordsFire, shipOrientation, playingBoard);
@@ -169,7 +169,7 @@ public class SimpleBattleships {
 	// Check if the fired coords score a hit
 	// when shipOrientation is true x is extended/ranged by the shipLength, otherwise, y is 
 	// Need to be able to record coords that have already been hit
-	public static boolean checkShipHit(String shipCoords, String coordsFire, boolean shipOrientation, int shipLength){
+	public static boolean checkShipHit(String shipCoords, String coordsFire, boolean shipOrientation, int shipLength, List<String> listHit, List<String> listMiss){
 		
 		boolean shipHit = false;
 		
@@ -186,9 +186,13 @@ public class SimpleBattleships {
 				if (xfire == xship && yfire == i){
 					System.out.println("HIT!");
 					shipHit = true;
+					// add coordsFire to listHit
+					listHit.add(coordsFire);
 					break;
 				} else {
 					shipHit = false;
+					// add coordsFire to listMiss
+					listMiss.add(coordsFire);
 					System.out.println("Miss...");
 				}
 			}
@@ -199,10 +203,14 @@ public class SimpleBattleships {
 				if (xfire == i && yfire == yship){
 					System.out.println("HIT!");
 					shipHit = true;
+					// add coordsFire to listHit
+					listHit.add(coordsFire);
 					break;
 				} else {
 					System.out.println("Miss...");
 					shipHit = false;
+					// add coordsFire to listMiss
+					listMiss.add(coordsFire);
 				}
 			}
 		}

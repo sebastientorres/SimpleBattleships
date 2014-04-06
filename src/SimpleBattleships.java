@@ -16,7 +16,7 @@ public class SimpleBattleships {
 		// TODO Auto-generated method stub
 		
 		// set the world \ playing board
-		int[][] playingBoard = new int[15][15];
+		//int[][] playingBoard = new int[15][15];
 		
 		List<String> listHit = new ArrayList<String>();
 		List<String> listMiss = new ArrayList<String>();
@@ -38,13 +38,12 @@ public class SimpleBattleships {
 		boolean gameOver = false;
 		while(!gameOver){
 			
-			String fireCoords = readInCoords();
 			
-			// erm, not sure about this bit
-			while(!shipHitRecord(fireCoords, listHit, listMiss)){
+			String fireCoords = readInCoords(listHit, listMiss);
+			
 			// boolean shipHit = 
-				checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength, listHit, listMiss);
-			}
+			checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength, listHit, listMiss);
+			
 			//check coords / hit
 			//checkShipHit(shipCoords, coordsFire, shipOrientation, playingBoard);
 
@@ -71,30 +70,35 @@ public class SimpleBattleships {
 	}
 	
 	// Validate the entered coordinates
-	public static boolean validateCoordsFire(String coordsFire){
-		boolean coordsFireValid;
+	public static boolean validateCoordsFire(String coordsFire, List<String> listHit, List<String> listMiss){
+		boolean coordsFireValid = false;
+
+		while(!shipHitRecord(coordsFire, listHit, listMiss)){
+				
 		int x, y;
 		
 		String strx = splitCoordsString(coordsFire, 'x');
 		String stry = splitCoordsString(coordsFire, 'y');
 		
+		// Where do we put this? A graceful way of ending.  
+		// while(!coordsFire.matches("q") || !coordsFire.matches("Q")){
 		
 		if (numericCheckCoordsFire(strx) && numericCheckCoordsFire(stry) ){
 			x = Integer.parseInt(strx);
 			y = Integer.parseInt(stry);
-			
+		
 			if (x >= 26 || y >= 26){
 				coordsFireValid = false;
 				System.out.println("The dimensions of the board are 25 x 25, 'x,y' entered must be less than this.  You entered '" + strx + "' for x and '" + stry + "' for y.");
 			} else {
 				coordsFireValid = true;
 			}
-			
+		
 		} else {
 			coordsFireValid = false;
 			System.out.println("Coords are supposed to be numbers...  You entered '" + strx + "' for x and '" + stry + "' for y.");
 		}
-
+		}
 		return coordsFireValid;
 		
 	}
@@ -272,7 +276,8 @@ public class SimpleBattleships {
 		
 	}
 
-	public static String readInCoords(){
+	public static String readInCoords(List<String> listHit, List<String> listMiss){
+		
 		
 		// Set up a console object
 		Console c = System.console();
@@ -281,7 +286,10 @@ public class SimpleBattleships {
 			
 		String coordsFire = c.readLine("Enter coordinates as 'x,y':");
 		
-		validateCoordsFire(coordsFire);
+		// make sure that there are no white spaces at the end of the input
+		coordsFire = coordsFire.trim();
+		
+		validateCoordsFire(coordsFire, listHit, listMiss);
 
 		int x = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
 		int y = Integer.parseInt(splitCoordsString(coordsFire, 'y'));

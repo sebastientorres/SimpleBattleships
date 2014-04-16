@@ -40,16 +40,12 @@ public class SimpleBattleships {
 			
 			
 			String fireCoords = readInCoords(listHit, listMiss, coordsFireRecording);
-			
-			
-			
+
 			if(checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength)){
 				listHit.add(fireCoords);
 			} else {
 				listMiss.add(fireCoords);
 			}
-			
-			//checkShipHit(shipCoords, coordsFire, shipOrientation, playingBoard);
 			
 		}
 		
@@ -74,13 +70,31 @@ public class SimpleBattleships {
 		return gameOver;
 	}
 	
+	public static boolean coordsAlreadyFired(String coordsFired, List<String> coordsFireRecording){
+		
+		boolean alreadyHit = false;
+		
+		// go through each item in the list and compare against coordsFire
+		for(String s : coordsFireRecording){
+			if(s.contentEquals(coordsFired)){
+				System.out.println("Already fired at those...");
+				alreadyHit = false;
+			} else {
+				alreadyHit = true;
+			}
+		}
+		
+		return alreadyHit;
+		
+	}
+	
 	// Validate the entered coordinates
 	public static boolean validateCoordsFire(String coordsFire, List<String> listHit, List<String> listMiss, List<String> coordsFireRecording){
 		boolean coordsFireValid = false;
 
 		// TODO - coordsFireRecord now returns a List<String> not boolean.
 		// another method to do the comparison?
-		if(!coordsFireRecord(coordsFire, coordsFireRecording)) {
+		if(!coordsAlreadyFired(coordsFire, coordsFireRecording)) {
 			
 			int x, y;
 			

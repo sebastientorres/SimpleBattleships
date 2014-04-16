@@ -13,8 +13,7 @@ public class SimpleBattleships {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
+				
 		// set the world \ playing board
 		//int[][] playingBoard = new int[15][15];
 		
@@ -42,13 +41,18 @@ public class SimpleBattleships {
 			
 			String fireCoords = readInCoords(listHit, listMiss, coordsFireRecording);
 			
-			// boolean shipHit = 
-			checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength, listHit, listMiss);
 			
-			//check coords / hit
+			
+			if(checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength)){
+				listHit.add(fireCoords);
+			} else {
+				listMiss.add(fireCoords);
+			}
+			
 			//checkShipHit(shipCoords, coordsFire, shipOrientation, playingBoard);
-
+			
 		}
+		
 		System.out.println("gameOver became false");
 		System.exit(0);
 			
@@ -74,6 +78,8 @@ public class SimpleBattleships {
 	public static boolean validateCoordsFire(String coordsFire, List<String> listHit, List<String> listMiss, List<String> coordsFireRecording){
 		boolean coordsFireValid = false;
 
+		// TODO - coordsFireRecord now returns a List<String> not boolean.
+		// another method to do the comparison?
 		if(!coordsFireRecord(coordsFire, coordsFireRecording)) {
 			
 			int x, y;
@@ -81,7 +87,7 @@ public class SimpleBattleships {
 			String strx = splitCoordsString(coordsFire, 'x');
 			String stry = splitCoordsString(coordsFire, 'y');
 			
-			// Where do we put this? A graceful way of ending.  
+			// TODO Where do we put this? A graceful way of ending.  
 			// while(!coordsFire.matches("q") || !coordsFire.matches("Q")){
 			
 			if (numericCheckCoordsFire(strx) && numericCheckCoordsFire(stry) ){
@@ -103,7 +109,8 @@ public class SimpleBattleships {
 			coordsFireValid = false;
 		}
 		
-		System.out.println(listHit);
+		System.out.println("Coords hit: " + listHit);
+		System.out.println("Coords missed: " + listMiss);
 		
 		return coordsFireValid;
 		
@@ -180,7 +187,7 @@ public class SimpleBattleships {
 	// Check if the fired coords score a hit
 	// when shipOrientation is true x is extended/ranged by the shipLength, otherwise, y is 
 	// Need to be able to record coords that have already been hit
-	public static boolean checkShipHit(String shipCoords, String coordsFire, boolean shipOrientation, int shipLength, List<String> listHit, List<String> listMiss){
+	public static boolean checkShipHit(String shipCoords, String coordsFire, boolean shipOrientation, int shipLength){
 		
 		boolean shipHit = false;
 		
@@ -192,36 +199,26 @@ public class SimpleBattleships {
 		
 		// Orientation is vertical
 		if (shipOrientation == true){
-			System.out.println("Checking vertical coords");
 			for(int i = yship; i < yship + shipLength; i++) {
 				if (xfire == xship && yfire == i){
 					System.out.println(coordsFire + " HIT!");
 					shipHit = true;
-					// add coordsFire to listHit
-					listHit.add(coordsFire);
 					break;
 				} else {
 					shipHit = false;
-					// add coordsFire to listMiss
-					listMiss.add(coordsFire);
 					System.out.println(coordsFire + " Missed...");
 				}
 			}
 			// Orientation is horizontal
 		} else {
-			System.out.println("Checking horizontal coords");
 			for(int i = xship; i < xship + shipLength; i++) {
 				if (xfire == i && yfire == yship){
 					System.out.println(coordsFire + " HIT!");
 					shipHit = true;
-					// add coordsFire to listHit
-					listHit.add(coordsFire);
 					break;
 				} else {
 					System.out.println(coordsFire + " Miss...");
 					shipHit = false;
-					// add coordsFire to listMiss
-					listMiss.add(coordsFire);
 				}
 			}
 		}
@@ -231,7 +228,7 @@ public class SimpleBattleships {
 	}
 	
 	// Record and list the coords already fired at
-	// Use with checkShipSunk() to ensure that all points of a ship have been hit, not just the length of the ship counter?
+	// TODO Use with checkShipSunk() to ensure that all points of a ship have been hit, not just the length of the ship counter?
 	public static boolean shipHitRecord(String coordsFire, List<String>listHit, List<String> listMiss){
 		System.out.println("Entering shipHitRecord()");
 		boolean alreadyHit = false;
@@ -252,20 +249,13 @@ public class SimpleBattleships {
 	}
 	
 	// Record all coords fired at, hit or miss.
-	public static boolean coordsFireRecord(String coordsFire, List<String> coordsFireRecording){
+	public static List<String> coordsFireRecord(String coordsFire, List<String> coordsFireRecording){
 		
-		boolean firedAt = false;
+		System.out.println("\n" + coordsFireRecording + "\n");
 		
-		for(String s : coordsFireRecording){
-			if(s.contentEquals(coordsFire)){
-				firedAt = true;
-			} else {
-				System.out.println("You've already fired at " + coordsFire);
-				firedAt = false;
-			}
-		}
+		coordsFireRecording.add(coordsFire);
 		
-		return firedAt;
+		return coordsFireRecording;
 	}
 	
 	// Split the String based on a comma, convert that String position to an int
@@ -318,6 +308,8 @@ public class SimpleBattleships {
 		int y = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
 		
 		System.out.println("Firing coordinates are x = " + x + " and y = " + y);
+		
+		coordsFireRecord(coordsFire, coordsFireRecording);
 				
 		return coordsFire;
 	}

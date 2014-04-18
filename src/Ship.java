@@ -1,6 +1,11 @@
 
-public class Ship(int readLength() {
+
+public class Ship {
 	
-	int length = readLength;
+	public int shipGetLength(){
+		int length= 0;
+		
+		return length;
+	}
 	
 }

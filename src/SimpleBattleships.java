@@ -226,17 +226,23 @@ public class SimpleBattleships {
 	
 	// Record and list the coords already fired at
 	public static boolean shipHitRecord(String coordsFire, List<String>listHit, List<String> listMiss){
-		
+		System.out.println("Entered shipHitRecord()");
 		boolean alreadyHit = false;
+		
+		for(String s : listHit){
+			System.out.println(s);
+		}
 		
 		// go through each item in the list and compare against coordsFire
 		
 		for(String s : listHit){
 			if(s.contentEquals(coordsFire)){
+				System.out.println("Already hit " + s);
 				// put these matched coordsFire into listHit 
 				alreadyHit = false;
 				
 			} else {
+				System.out.println("You missed with " + s);
 				alreadyHit = true;
 			}
 		}

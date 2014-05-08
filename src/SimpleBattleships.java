@@ -19,7 +19,7 @@ public class SimpleBattleships {
 		
 		List<String> listHit = new ArrayList<String>();
 		List<String> listMiss = new ArrayList<String>();
-		List<String> coordsFireRecording = new ArrayList<String>();
+		//List<String> coordsFireRecording = new ArrayList<String>();
 		List<String> coordsFired = new ArrayList<String>();
 		
 		// setting the ship up
@@ -42,6 +42,9 @@ public class SimpleBattleships {
 			//String fireCoords = readInCoords(listHit, listMiss, coordsFireRecording);
 			
 			String fireCoords = inputCoords(coordsFired);
+			
+			validateCoords(fireCoords);
+			
 
 			if(checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength)){
 				listHit.add(fireCoords);
@@ -330,18 +333,13 @@ public class SimpleBattleships {
 	public static String inputCoords(List<String> coordsFired){
 		
 		Console c = System.console();
-		String coordsEntered = c.readLine("Enter coordinates as 'x, y': ");
-		coordsEntered = coordsEntered.trim();
+		String coordsEntered = c.readLine("Enter coordinates as 'x, y': ").trim();
 		
-		while(!validateCoords(coordsEntered)){
-			
-			while(!coordsFiredAt(coordsEntered, coordsFired)){
-				coordsEntered = c.readLine("Enter coordinates as 'x, y': ");
-				coordsEntered = coordsEntered.trim();
-			}
-		}
-				
-		coordsFired.add(coordsEntered);
+		do{
+			System.out.println("in do\\while");
+			coordsEntered = c.readLine("Enter coordinates as 'x, y': ").trim();
+			System.out.println("end of do\\while look");
+		}while(!validateCoords(coordsEntered) && !coordsFiredAt(coordsEntered, coordsFired));
 		
 		return coordsEntered;
 		

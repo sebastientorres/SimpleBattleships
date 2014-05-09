@@ -333,7 +333,7 @@ public class SimpleBattleships {
 	public static String inputCoords(List<String> coordsFired){
 		
 		Console c = System.console();
-		String coordsEntered = c.readLine("Enter coordinates as 'x, y': ").trim();
+		String coordsEntered;
 		
 		do{
 			System.out.println("in do\\while");

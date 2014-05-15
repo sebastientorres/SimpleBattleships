@@ -2,6 +2,7 @@ import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 //import java.util.Arrays;
 //import java.io.IOException;
 
@@ -332,17 +333,29 @@ public class SimpleBattleships {
 	
 	public static String inputCoords(List<String> coordsFired){
 		
-		Console c = System.console();
+		
+		Scanner sc = new Scanner(System.in);
+		
+		//Console c = System.console();
 		String coordsEntered;
 		
 		do{
 			System.out.println("in do\\while");
-			coordsEntered = c.readLine("Enter coordinates as 'x, y': ").trim();
+			
+			//coordsEntered = c.readLine("Enter coordinates as 'x, y': ").trim();
+			
+			System.out.println("Enter coordinates as 'x, y': ");
+			coordsEntered = sc.nextLine();
+			
 			System.out.println("end of do\\while look");
 		}while(!validateCoords(coordsEntered) && !coordsFiredAt(coordsEntered, coordsFired));
 		
-		return coordsEntered;
+		coordsFired.add(coordsEntered);
 		
+		System.out.println("contents of List<String> coordsFired" + coordsFired);
+		
+		return coordsEntered;
+
 	}
 	
 	public static boolean validateCoords(String coordsEntered){
@@ -381,11 +394,12 @@ public class SimpleBattleships {
 		
 		// go through each item in the list and compare against coordsEntered
 		for(String s : coordsFired){
-			if(s.contentEquals(coordsEntered)){
+			System.out.println("in for loop, printing iterated var" + s);
+			if(s.equals(coordsEntered)){
 				// put these matched coordsFire into listHit
 				results = false;
-				System.out.println("already fired at " + coordsEntered);
 			} else {
+				System.out.println("already fired at " + coordsEntered);
 				results = true;
 			}
 			

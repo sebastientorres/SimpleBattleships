@@ -41,7 +41,7 @@ public class SimpleBattleships {
                 "with a comma ',' in between, for example: 23,2\n" +
                 "Enter 'q' to quit the game.\n" +
                 "Begin...");
-		
+        System.out.println("Ship length is " + shipLength);
 		
 		boolean gameOver = false;
 		// This while loop is the actual game play
@@ -228,11 +228,12 @@ public class SimpleBattleships {
         do{
 			System.out.println("Enter coordinates as 'x, y': ");
             coordsEntered = sc.nextLine();
+            coordsEntered = coordsEntered.trim();
             if(coordsEntered.contentEquals("q") || coordsEntered.contentEquals("Q")){
                 System.out.println("Thanks for playing, bye.");
                 System.exit(0);
             }
-        }while(!validateCoords(coordsEntered) || coordsFired.contains(coordsEntered));
+        }while(!validateCoords(coordsEntered) || coordsFired.contains(coordsEntered) || coordsEntered.isEmpty());
 		
 		coordsFired.add(coordsEntered);
 

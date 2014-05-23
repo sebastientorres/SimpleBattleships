@@ -1,10 +1,7 @@
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-//import java.util.Arrays;
-//import java.io.IOException;
 
 public class SimpleBattleships {
 	
@@ -17,34 +14,39 @@ public class SimpleBattleships {
 				
 		// set the world \ playing board
 		//int[][] playingBoard = new int[15][15];
-		
+
+        /* Set some Lists.
+        Record what has been hit, missed and fired, respectively.
+        */
 		List<String> listHit = new ArrayList<String>();
 		List<String> listMiss = new ArrayList<String>();
-		//List<String> coordsFireRecording = new ArrayList<String>();
 		List<String> coordsFired = new ArrayList<String>();
 		
-		// setting the ship up
+		// Setting the ship up
 		int shipLength = randChooseLength();
 		boolean shipOrientation = randChooseOrientation();
 		String shipCoords = shipChooseCoords(shipLength);
-		
+
+        /*
 		System.out.println("Ship coordinates are " + shipCoords);
 		System.out.println("Ship length is " + shipLength);
 		if(shipOrientation == true){
 			System.out.println("Ship orientaiton is vertical");
 		} else{
 			System.out.println("Ship orientaiton is horizontal");
-		}
+		}*/
+
+        System.out.println("Battleships!!!");
+        System.out.println("A pretty simple game, choose coordinates x and y, where the values are between 1 and 25 inclusive,\n" +
+                "with a comma ',' in between, for example: 23,2\n" +
+                "Enter 'q' to quit the game.\n" +
+                "Begin...");
 		
 		
 		boolean gameOver = false;
-		while(!gameOver){
-			
-			//String fireCoords = readInCoords(listHit, listMiss, coordsFireRecording);
-			
+		// This while loop is the actual game play
+        while(!gameOver){
 			String fireCoords = inputCoords(coordsFired);
-			
-			//validateCoords(fireCoords);
 
 			if(checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength)){
 				listHit.add(fireCoords);
@@ -63,23 +65,12 @@ public class SimpleBattleships {
 
 /******************** END OF MAIN ********************/
 	
-	
-	// Is the game over? See if the Ship has been sunk
-	public static boolean checkGameOver(boolean shipSunk){
-		boolean gameOver = false;
-		
-		if(shipSunk){
-			gameOver = true;
-		} else {
-			gameOver = false;
-		}
-		
-		return gameOver;
-	}
-
-	// As the name suggests, check if the ship has been sunk
+	/* As the name suggests, check if the ship has been sunk.
+    Compare the length of the ship against the number of elements in the List, the method returns true if the values
+    are the same.
+    */
 	public static boolean checkShipSunk(int shipLength, List<String> listHit){
-		boolean shipSunk = false;
+		boolean shipSunk;
 		
 		if(listHit.size() == shipLength){
 			shipSunk = true;
@@ -119,15 +110,15 @@ public class SimpleBattleships {
 		}
 		
 		int y = shipLength;
-		
-		// This isn't correct, I don't think.
-		// Think that this should be a List, or comma separated String, or something else. 
 		String shipCoords = x + "," + y;
 		
 		return shipCoords;
 	}
 
-	// As we're initially playing the computer, let the orientation of the ship vary
+	/* As we're initially playing the computer, let the orientation of the ship vary
+	About as self explanatory as it's going to get?
+	When boolean vertical is false, then the ship is horizontal.
+	 */
 	public static boolean randChooseOrientation(){
 		
 		boolean vertical;
@@ -135,7 +126,7 @@ public class SimpleBattleships {
 		Random rand = new Random();
 		
 		int value = rand.nextInt(2) +1;
-		
+
 		if (value == 1 ){
 			vertical = true;
 		} else {
@@ -146,9 +137,10 @@ public class SimpleBattleships {
 		
 	}
 
-	// Check if the fired coords score a hit
-	// when shipOrientation is true x is extended/ranged by the shipLength, otherwise, y is 
-	// Need to be able to record coords that have already been hit
+	/* Check if the fired coordinates score a hit
+	When shipOrientation is true x is extended/ranged by the shipLength, otherwise, y is.
+	Return boolean as true when the coordinates fired match coordinates of the ship.
+	*/
 	public static boolean checkShipHit(String shipCoords, String coordsFire, boolean shipOrientation, int shipLength){
 		
 		boolean shipHit = false;
@@ -160,7 +152,7 @@ public class SimpleBattleships {
 		int yship = Integer.parseInt(splitCoordsString(shipCoords, 'y'));
 		
 		// Orientation is vertical
-		if (shipOrientation == true){
+		if (shipOrientation){
 			for(int i = yship; i < yship + shipLength; i++) {
 				if (xfire == xship && yfire == i){
 					shipHit = true;
@@ -185,7 +177,9 @@ public class SimpleBattleships {
 		
 	}
 	
-	// Split the String based on a comma, convert that String position to an int
+	/* Split the String based on a comma and convert that String position to an integer.
+	Return the integer.
+	 */
 	public static String splitCoordsString(String coords, char xORy){
 		
 		String[] line = coords.split(",");
@@ -210,15 +204,23 @@ public class SimpleBattleships {
 		return coordsValue;		
 	}
 
+    /*
+    Perform a numeric check on the entered coordinates.
+    Return boolean.  Numbers are expected to match, thus boolean is true.
+     */
 	public static boolean numericCheckCoordsFire(String strCoords){
 
 		return strCoords.matches("-?\\d+(\\.\\d+)?");
 		
 	}
 
+    /*
+    Read in the coordinates that the player gives, return validated coordinates as a String with the format of 'x,y'.
+    Run withing a do-while loop so that the input occurs a least once.
+    The while() section performs input validation.
+     */
 	public static String inputCoords(List<String> coordsFired){
-		
-		
+
 		Scanner sc = new Scanner(System.in);
 
 		String coordsEntered;
@@ -236,7 +238,10 @@ public class SimpleBattleships {
 
 		return coordsEntered;
 	}
-	
+	/*
+	Validate the coordinates are numbers withing the range of the board and that they are in fact numbers.
+	Return boolean.  When coordinates pass the checks, boolean is true.
+	 */
 	public static boolean validateCoords(String coordsEntered){
 
         boolean results;

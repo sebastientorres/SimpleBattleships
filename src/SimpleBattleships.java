@@ -44,8 +44,7 @@ public class SimpleBattleships {
 			
 			String fireCoords = inputCoords(coordsFired);
 			
-			validateCoords(fireCoords);
-			
+			//validateCoords(fireCoords);
 
 			if(checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength)){
 				listHit.add(fireCoords);
@@ -151,7 +150,7 @@ public class SimpleBattleships {
 	
 	
 	// As we're initially playing the computer, let the length of the ship vary
-	private static int randChooseLength(){
+	public static int randChooseLength(){
 		
 		Random rand = new Random();
 		
@@ -279,7 +278,7 @@ public class SimpleBattleships {
 	}
 	
 	// Split the String based on a comma, convert that String position to an int
-	private static String splitCoordsString(String coords, char xORy){
+	public static String splitCoordsString(String coords, char xORy){
 		
 		String[] line = coords.split(",");
 		
@@ -341,14 +340,12 @@ public class SimpleBattleships {
 		
 		do{
 			System.out.println("in do\\while");
-			
-			//coordsEntered = c.readLine("Enter coordinates as 'x, y': ").trim();
-			
-			System.out.println("Enter coordinates as 'x, y': ");
-			coordsEntered = sc.nextLine();
-			
-			System.out.println("end of do\\while look");
-		}while(!validateCoords(coordsEntered) && !coordsFiredAt(coordsEntered, coordsFired));
+
+            System.out.println("Enter coordinates as 'x, y': ");
+            coordsEntered = sc.nextLine();
+
+			System.out.println("end of do\\while loop");
+		}while(!validateCoords(coordsEntered) || !coordsFiredAt(coordsEntered, coordsFired));
 		
 		coordsFired.add(coordsEntered);
 		
@@ -359,39 +356,37 @@ public class SimpleBattleships {
 	}
 	
 	public static boolean validateCoords(String coordsEntered){
-		boolean results = false;
-		
+
+        boolean results;
+
 		int x, y;
 		
 		String strx = splitCoordsString(coordsEntered, 'x');
 		String stry = splitCoordsString(coordsEntered, 'y');
-		
-		//x = Integer.parseInt(splitCoordsString(coordsEntered, 'x'));
-		//y = Integer.parseInt(splitCoordsString(coordsEntered, 'y'));
-		
+
 		if (numericCheckCoordsFire(strx) && numericCheckCoordsFire(stry) ){
 			x = Integer.parseInt(strx);
 			y = Integer.parseInt(stry);
 		
-			if (x >= 26 || y >= 26){
+			if (x > 25 || y > 25){
 				results = false;
 				System.out.println("The dimensions of the board are 25 x 25, 'x,y' entered must be less than this.  You entered '" + strx + "' for x and '" + stry + "' for y.");
 			} else {
 				results = true;
-			}
+        	}
 		
 		} else {
 			results = false;
 			System.out.println("Coords are supposed to be numbers...  You entered '" + strx + "' for x and '" + stry + "' for y.");
 		}
-		
+		System.out.println(results);
 		return results;
 	}
 	
 	public static boolean coordsFiredAt(String coordsEntered, List<String> coordsFired){
 		
 		boolean results = false;
-		
+
 		// go through each item in the list and compare against coordsEntered
 		for(String s : coordsFired){
 			System.out.println("in for loop, printing iterated var" + s);
@@ -404,8 +399,7 @@ public class SimpleBattleships {
 			}
 			
 		}
-	
-		
+
 		return results;
 	}
  }

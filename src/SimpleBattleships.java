@@ -218,6 +218,9 @@ public class SimpleBattleships {
     Read in the coordinates that the player gives, return validated coordinates as a String with the format of 'x,y'.
     Run withing a do-while loop so that the input occurs a least once.
     The while() section performs input validation.
+
+    This method fails if <RETURN> is pressed without entering any data, same if the data is only half formed, for example
+    '3,' fails.
      */
 	public static String inputCoords(List<String> coordsFired){
 
@@ -233,12 +236,13 @@ public class SimpleBattleships {
                 System.out.println("Thanks for playing, bye.");
                 System.exit(0);
             }
-        }while(!validateCoords(coordsEntered) || coordsFired.contains(coordsEntered) || coordsEntered.isEmpty());
+        }while(!validateCoords(coordsEntered) || coordsFired.contains(coordsEntered));
 		
 		coordsFired.add(coordsEntered);
 
 		return coordsEntered;
 	}
+
 	/*
 	Validate the coordinates are numbers withing the range of the board and that they are in fact numbers.
 	Return boolean.  When coordinates pass the checks, boolean is true.

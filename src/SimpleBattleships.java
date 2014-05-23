@@ -48,13 +48,15 @@ public class SimpleBattleships {
 
 			if(checkShipHit(shipCoords, fireCoords, shipOrientation, shipLength)){
 				listHit.add(fireCoords);
+                System.out.println("HIT!!!");
 			} else {
 				listMiss.add(fireCoords);
-			}
-			
+                System.out.println("Missed, try again...");
+            }
+
+            gameOver = checkShipSunk(shipLength, listHit);
 		}
 		
-		System.out.println("gameOver became false");
 		System.exit(0);
 			
 	}
@@ -74,73 +76,14 @@ public class SimpleBattleships {
 		
 		return gameOver;
 	}
-	
-	public static boolean coordsAlreadyFired(String coordsFired, List<String> coordsFireRecording){
-		
-		boolean alreadyHit = false;
-		
-		// go through each item in the list and compare against coordsFire
-		for(String s : coordsFireRecording){
-			if(s.contentEquals(coordsFired)){
-				System.out.println("Already fired at those...");
-				alreadyHit = false;
-			} else {
-				alreadyHit = true;
-			}
-		}
-		
-		return alreadyHit;
-		
-	}
-	
-	// Validate the entered coordinates
-	public static boolean validateCoordsFire(String coordsFire, List<String> listHit, List<String> listMiss, List<String> coordsFireRecording){
-		boolean coordsFireValid = false;
 
-		// TODO - coordsFireRecord now returns a List<String> not boolean.
-		// another method to do the comparison?
-		if(!coordsAlreadyFired(coordsFire, coordsFireRecording)) {
-			
-			int x, y;
-			
-			String strx = splitCoordsString(coordsFire, 'x');
-			String stry = splitCoordsString(coordsFire, 'y');
-			
-			// TODO Where do we put this? A graceful way of ending.  
-			// while(!coordsFire.matches("q") || !coordsFire.matches("Q")){
-			
-			if (numericCheckCoordsFire(strx) && numericCheckCoordsFire(stry) ){
-				x = Integer.parseInt(strx);
-				y = Integer.parseInt(stry);
-			
-				if (x >= 26 || y >= 26){
-					coordsFireValid = false;
-					System.out.println("The dimensions of the board are 25 x 25, 'x,y' entered must be less than this.  You entered '" + strx + "' for x and '" + stry + "' for y.");
-				} else {
-					coordsFireValid = true;
-				}
-			
-			} else {
-				coordsFireValid = false;
-				System.out.println("Coords are supposed to be numbers...  You entered '" + strx + "' for x and '" + stry + "' for y.");
-			}
-		} else {
-			coordsFireValid = false;
-		}
-		
-		System.out.println("Coords hit: " + listHit);
-		System.out.println("Coords missed: " + listMiss);
-		
-		return coordsFireValid;
-		
-	}
-	
 	// As the name suggests, check if the ship has been sunk
-	public static boolean checkShipSunk(int numberOfHits, int length){
+	public static boolean checkShipSunk(int shipLength, List<String> listHit){
 		boolean shipSunk = false;
 		
-		if(numberOfHits == length){
+		if(listHit.size() == shipLength){
 			shipSunk = true;
+            System.out.println("Ship sunk, you won.");
 		} else {
 			shipSunk = false;
 		}
@@ -220,23 +163,19 @@ public class SimpleBattleships {
 		if (shipOrientation == true){
 			for(int i = yship; i < yship + shipLength; i++) {
 				if (xfire == xship && yfire == i){
-					System.out.println(coordsFire + " HIT!");
 					shipHit = true;
 					break;
 				} else {
 					shipHit = false;
-					System.out.println(coordsFire + " Missed...");
 				}
 			}
 			// Orientation is horizontal
 		} else {
 			for(int i = xship; i < xship + shipLength; i++) {
 				if (xfire == i && yfire == yship){
-					System.out.println(coordsFire + " HIT!");
 					shipHit = true;
 					break;
 				} else {
-					System.out.println(coordsFire + " Miss...");
 					shipHit = false;
 				}
 			}
@@ -244,37 +183,6 @@ public class SimpleBattleships {
 
 		return shipHit;
 		
-	}
-	
-	// Record and list the coords already fired at
-	// TODO Use with checkShipSunk() to ensure that all points of a ship have been hit, not just the length of the ship counter?
-	public static boolean shipHitRecord(String coordsFire, List<String>listHit, List<String> listMiss){
-		System.out.println("Entering shipHitRecord()");
-		boolean alreadyHit = false;
-		
-		// go through each item in the list and compare against coordsFire
-		for(String s : listHit){
-			if(s.contentEquals(coordsFire)){
-				// put these matched coordsFire into listHit
-				alreadyHit = false;
-			} else {
-				alreadyHit = true;
-			}
-			
-		}
-		
-		return alreadyHit;
-		
-	}
-	
-	// Record all coords fired at, hit or miss.
-	public static List<String> coordsFireRecord(String coordsFire, List<String> coordsFireRecording){
-		
-		System.out.println("\n" + coordsFireRecording + "\n");
-		
-		coordsFireRecording.add(coordsFire);
-		
-		return coordsFireRecording;
 	}
 	
 	// Split the String based on a comma, convert that String position to an int
@@ -308,52 +216,25 @@ public class SimpleBattleships {
 		
 	}
 
-	public static String readInCoords(List<String> listHit, List<String> listMiss, List<String> coordsFireRecording){
-		
-		// Set up a console object
-		Console c = System.console();
-				
-		String coordsFire = c.readLine("Enter coordinates as 'x,y':");
-		
-		// make sure that there are no white spaces at the end of the input
-		coordsFire = coordsFire.trim();
-		
-		validateCoordsFire(coordsFire, listHit, listMiss, coordsFireRecording);
-
-		int x = Integer.parseInt(splitCoordsString(coordsFire, 'x'));
-		int y = Integer.parseInt(splitCoordsString(coordsFire, 'y'));
-		
-		System.out.println("Firing coordinates are x = " + x + " and y = " + y);
-		
-		coordsFireRecord(coordsFire, coordsFireRecording);
-				
-		return coordsFire;
-	}
-	
 	public static String inputCoords(List<String> coordsFired){
 		
 		
 		Scanner sc = new Scanner(System.in);
-		
-		//Console c = System.console();
+
 		String coordsEntered;
 
         do{
-			System.out.println("in do\\while");
-
-            System.out.println("Enter coordinates as 'x, y': ");
+			System.out.println("Enter coordinates as 'x, y': ");
             coordsEntered = sc.nextLine();
-
-			System.out.println("end of do\\while loop");
-        //}while(!validateCoords(coordsEntered) || !coordsFiredAt(coordsEntered, coordsFired));
+            if(coordsEntered.contentEquals("q") || coordsEntered.contentEquals("Q")){
+                System.out.println("Thanks for playing, bye.");
+                System.exit(0);
+            }
         }while(!validateCoords(coordsEntered) || coordsFired.contains(coordsEntered));
 		
 		coordsFired.add(coordsEntered);
-		
-		System.out.println("contents of List<String> coordsFired" + coordsFired);
-		
-		return coordsEntered;
 
+		return coordsEntered;
 	}
 	
 	public static boolean validateCoords(String coordsEntered){
@@ -380,27 +261,8 @@ public class SimpleBattleships {
 			results = false;
 			System.out.println("Coords are supposed to be numbers...  You entered '" + strx + "' for x and '" + stry + "' for y.");
 		}
-		System.out.println(results);
-		return results;
-	}
-	
-	public static boolean coordsFiredAt(String coordsEntered, List<String> coordsFired){
-		
-		boolean results = true;
-
-		// go through each item in the list and compare against coordsEntered
-		for(String s : coordsFired){
-			System.out.println("in for loop, printing iterated var " + s);
-			if(s.equals(coordsEntered)){
-				// put these matched coordsFire into listHit
-                results = true;
-                System.out.println("already fired at " + coordsEntered);
-			} else {
-				results = false;
-			}
-			
-		}
 
 		return results;
 	}
+
  }

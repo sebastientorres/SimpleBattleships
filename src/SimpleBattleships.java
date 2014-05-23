@@ -337,15 +337,16 @@ public class SimpleBattleships {
 		
 		//Console c = System.console();
 		String coordsEntered;
-		
-		do{
+
+        do{
 			System.out.println("in do\\while");
 
             System.out.println("Enter coordinates as 'x, y': ");
             coordsEntered = sc.nextLine();
 
 			System.out.println("end of do\\while loop");
-		}while(!validateCoords(coordsEntered) || !coordsFiredAt(coordsEntered, coordsFired));
+        //}while(!validateCoords(coordsEntered) || !coordsFiredAt(coordsEntered, coordsFired));
+        }while(!validateCoords(coordsEntered) || coordsFired.contains(coordsEntered));
 		
 		coordsFired.add(coordsEntered);
 		
@@ -385,17 +386,17 @@ public class SimpleBattleships {
 	
 	public static boolean coordsFiredAt(String coordsEntered, List<String> coordsFired){
 		
-		boolean results = false;
+		boolean results = true;
 
 		// go through each item in the list and compare against coordsEntered
 		for(String s : coordsFired){
-			System.out.println("in for loop, printing iterated var" + s);
+			System.out.println("in for loop, printing iterated var " + s);
 			if(s.equals(coordsEntered)){
 				// put these matched coordsFire into listHit
-				results = false;
+                results = true;
+                System.out.println("already fired at " + coordsEntered);
 			} else {
-				System.out.println("already fired at " + coordsEntered);
-				results = true;
+				results = false;
 			}
 			
 		}

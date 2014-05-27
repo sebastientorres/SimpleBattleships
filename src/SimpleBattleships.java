@@ -229,7 +229,7 @@ public class SimpleBattleships {
 		String coordsEntered;
 
         do{
-			System.out.println("Enter coordinates as 'x, y': ");
+			System.out.println("Enter coordinates as 'x,y': ");
             coordsEntered = sc.nextLine();
             coordsEntered = coordsEntered.trim();
             if(coordsEntered.contentEquals("q") || coordsEntered.contentEquals("Q")){
@@ -260,7 +260,7 @@ public class SimpleBattleships {
 			x = Integer.parseInt(strx);
 			y = Integer.parseInt(stry);
 		
-			if (x > 25 || y > 25){
+			if (x > 25 || y > 25 || y < 1 || x < 1){
 				results = false;
 				System.out.println("The dimensions of the board are 25 x 25, 'x,y' entered must be less than this.  You entered '" + strx + "' for x and '" + stry + "' for y.");
 			} else {

@@ -1,17 +1,21 @@
+package game;
+
+import java.lang.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+
 public class SimpleBattleships {
 	
 
 /******************** BEGIN MAIN ********************/
-	/**
-	 * @param args
-	 */
+
 	public static void main(String[] args) {
-				
+
+        gui.initGui();
+
 		// set the world \ playing board
 		//int[][] playingBoard = new int[15][15];
 
@@ -28,20 +32,23 @@ public class SimpleBattleships {
 		String shipCoords = shipChooseCoords(shipLength);
 
         /*
-		System.out.println("Ship coordinates are " + shipCoords);
-		System.out.println("Ship length is " + shipLength);
+		System.out.println("game.Ship coordinates are " + shipCoords);
+		System.out.println("game.Ship length is " + shipLength);
 		if(shipOrientation == true){
-			System.out.println("Ship orientaiton is vertical");
+			System.out.println("game.Ship orientaiton is vertical");
 		} else{
-			System.out.println("Ship orientaiton is horizontal");
+			System.out.println("game.Ship orientaiton is horizontal");
 		}*/
 
         System.out.println("Battleships!!!");
-        System.out.println("A pretty simple game, choose coordinates x and y, where the values are between 1 and 25 inclusive,\n" +
-                "with a comma ',' in between, for example: 23,2\n" +
-                "Enter 'q' to quit the game.\n" +
-                "Begin...");
-        System.out.println("Ship length is " + shipLength);
+        //System.out.println("A pretty simple game, choose coordinates x and y, where the values are between 1 and 25 inclusive,\n" +
+        //        "with a comma ',' in between, for example: 23,2\n" +
+        //        "Enter 'q' to quit the game.\n" +
+        //       "Begin...");
+
+        System.out.println(gui.userMessage('0'));
+
+        System.out.println("game.Ship length is " + shipLength);
 		
 		boolean gameOver = false;
 		// This while loop is the actual game play
@@ -74,7 +81,7 @@ public class SimpleBattleships {
 		
 		if(listHit.size() == shipLength){
 			shipSunk = true;
-            System.out.println("Ship sunk, you won.");
+            System.out.println("game.Ship sunk, you won.");
 		} else {
 			shipSunk = false;
 		}

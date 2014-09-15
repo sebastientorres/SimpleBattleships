@@ -14,6 +14,12 @@ public class SimpleBattleships {
 
 	public static void main(String[] args) {
 
+        // gui.initGui();
+
+
+
+        GameGui gui = new GameGui();
+
         gui.initGui();
 
 		// set the world \ playing board
@@ -46,7 +52,7 @@ public class SimpleBattleships {
         //        "Enter 'q' to quit the game.\n" +
         //       "Begin...");
 
-        System.out.println(gui.userMessage('0'));
+        // System.out.println(gui.userMessage('0'));
 
         System.out.println("game.Ship length is " + shipLength);
 		
